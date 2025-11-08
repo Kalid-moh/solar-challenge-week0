@@ -1,10 +1,5 @@
 # solar-challenge-week0
 
-solar-challenge-week0 repo
-#Test again
-
-# Solar Challenge – Week 0
-
 [![Python Version](https://img.shields.io/badge/python-3.x-blue)](https://www.python.org/)
 [![CI](https://github.com/Kalid-moh/solar-challenge-week0/actions/workflows/unittests.yml/badge.svg)](https://github.com/Kalid-moh/solar-challenge-week0/actions/workflows/unittests.yml)
 
