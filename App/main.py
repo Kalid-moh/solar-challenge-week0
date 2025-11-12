@@ -37,7 +37,7 @@ st.markdown("""
 # -----------------------------
 # HEADER
 # -----------------------------
-st.markdown('<p class="main-header">☀️ Solar Energy Insights Dashboard</p>', unsafe_allow_html=True)
+st.markdown('<p class="main-header"> Solar Energy Insights Dashboard</p>', unsafe_allow_html=True)
 st.markdown('<p class="sub-header">Interactive visualization of Global Horizontal Irradiance (GHI) and solar metrics worldwide</p>', unsafe_allow_html=True)
 
 # -----------------------------
@@ -61,9 +61,9 @@ if not os.path.exists(DATA_PATH):
     
     if uploaded_file is not None:
         df = pd.read_csv(uploaded_file)
-        st.success(f"✅ Successfully loaded **{len(df):,}** records!")
+        st.success(f" Successfully loaded **{len(df):,}** records!")
     else:
-        st.warning("⚠️ Waiting for data upload...")
+        st.warning(" Waiting for data upload...")
         st.markdown("""
             **Expected CSV format:**
             - Column for country/location names
@@ -74,19 +74,19 @@ if not os.path.exists(DATA_PATH):
 else:
     try:
         df = get_data(DATA_PATH)
-        st.success(f"✅ Successfully loaded **{len(df):,}** records from the dataset!")
+        st.success(f" Successfully loaded **{len(df):,}** records from the dataset!")
     except FileNotFoundError:
-        st.error("⚠️ Data file not found! Please ensure `data/solar_data.csv` exists locally.")
+        st.error(" Data file not found! Please ensure `data/solar_data.csv` exists locally.")
         st.stop()
     except Exception as e:
-        st.error(f"❌ Error loading data: {str(e)}")
+        st.error(f" Error loading data: {str(e)}")
         st.stop()
 
 # -----------------------------
 # DATA INSPECTION & COLUMN DETECTION
 # -----------------------------
 # Show available columns for debugging
-with st.expander("🔍 Dataset Information - Click to see your data structure"):
+with st.expander(" Dataset Information - Click to see your data structure"):
     st.write("**Available Columns:**")
     st.write(df.columns.tolist())
     st.write(f"**Total Rows:** {len(df):,}")
@@ -100,11 +100,11 @@ possible_country_names = ['country', 'countries', 'location', 'nation', 'state',
 for col in df.columns:
     if col.lower() in possible_country_names:
         country_col = col
-        st.info(f"✅ Detected country column: **{col}**")
+        st.info(f" Detected country column: **{col}**")
         break
 
 if country_col is None:
-    st.error("❌ No country/location column found in the dataset!")
+    st.error(" No country/location column found in the dataset!")
     st.warning(f"Looking for columns named: {', '.join(possible_country_names)}")
     st.info("**Your columns are:** " + ", ".join(df.columns.tolist()))
     
@@ -125,7 +125,7 @@ possible_region_names = ['region', 'regions', 'area', 'zone', 'district', 'city'
 for col in df.columns:
     if col.lower() in possible_region_names and col != country_col:
         region_col = col
-        st.info(f"✅ Detected region column: **{col}**")
+        st.info(f" Detected region column: **{col}**")
         break
 
 # -----------------------------
@@ -135,7 +135,7 @@ st.sidebar.title("Control Panel")
 st.sidebar.markdown("---")
 
 # Country Selection
-st.sidebar.subheader(f"🌍 {country_col} Selection")
+st.sidebar.subheader(f" {country_col} Selection")
 try:
     countries = sorted(df[country_col].dropna().unique().tolist())
 except Exception as e:
@@ -157,7 +157,7 @@ else:
 
 # Metric Selection
 st.sidebar.markdown("---")
-st.sidebar.subheader("📊 Metric Selection")
+st.sidebar.subheader(" Metric Selection")
 
 # Get numeric columns
 numeric_cols = df.select_dtypes(include=['float64', 'int64', 'float32', 'int32']).columns.tolist()
@@ -171,7 +171,7 @@ if not available_metrics:
     available_metrics = numeric_cols
 
 if not available_metrics:
-    st.error("❌ No numeric columns found in the dataset!")
+    st.error(" No numeric columns found in the dataset!")
     st.stop()
 
 metric = st.sidebar.selectbox(
@@ -183,7 +183,7 @@ metric = st.sidebar.selectbox(
 
 # Top N Selection
 st.sidebar.markdown("---")
-st.sidebar.subheader("🏆 Top Regions")
+st.sidebar.subheader(" Top Regions")
 top_n = st.sidebar.slider(
     "Number of top regions to display:",
     min_value=3,
@@ -195,7 +195,7 @@ top_n = st.sidebar.slider(
 
 # Display Options
 st.sidebar.markdown("---")
-st.sidebar.subheader("⚙️ Display Options")
+st.sidebar.subheader(" Display Options")
 show_raw_data = st.sidebar.checkbox("Show Raw Data Table", value=False)
 show_statistics = st.sidebar.checkbox("Show Key Statistics", value=True)
 
@@ -203,21 +203,21 @@ show_statistics = st.sidebar.checkbox("Show Key Statistics", value=True)
 # FILTER DATA
 # -----------------------------
 if not selected_countries:
-    st.warning(f"⚠️ Please select at least one {country_col.lower()} from the sidebar.")
+    st.warning(f" Please select at least one {country_col.lower()} from the sidebar.")
     st.stop()
 
 # Filter data
 filtered_df = df[df[country_col].isin(selected_countries)]
 
 if len(filtered_df) == 0:
-    st.error(f"❌ No data available for selected {country_col.lower()}s.")
+    st.error(f" No data available for selected {country_col.lower()}s.")
     st.stop()
 
 # -----------------------------
 # KEY METRICS
 # -----------------------------
 if show_statistics:
-    st.markdown("### 📈 Key Statistics")
+    st.markdown("###  Key Statistics")
     col1, col2, col3, col4 = st.columns(4)
     
     with col1:
@@ -254,7 +254,7 @@ st.markdown("---")
 # -----------------------------
 # MAIN DASHBOARD
 # -----------------------------
-tab1, tab2, tab3 = st.tabs(["📊 Distribution Analysis", "🏆 Top Regions", "📋 Data Table"])
+tab1, tab2, tab3 = st.tabs([" Distribution Analysis", " Top Regions", " Data Table"])
 
 # TAB 1: Distribution Analysis
 with tab1:
@@ -268,7 +268,7 @@ with tab1:
         st.plotly_chart(fig, use_container_width=True)
     
     with col_stats:
-        st.markdown("#### 📊 Statistics")
+        st.markdown("####  Statistics")
         stats_df = pd.DataFrame({
             'Metric': ['Mean', 'Median', 'Std Dev', 'Min', 'Max'],
             'Value': [
@@ -281,7 +281,7 @@ with tab1:
         })
         st.dataframe(stats_df, hide_index=True, use_container_width=True)
         
-        with st.expander("ℹ️ Understanding Boxplots"):
+        with st.expander("Understanding Boxplots"):
             st.markdown("""
             - **Box**: 25th to 75th percentile (IQR)
             - **Line in box**: Median value
@@ -312,7 +312,7 @@ with tab2:
             st.info(f"Attempted to group by: **{group_col}** and aggregate: **{metric}**")
     
     with col_insights:
-        st.markdown("### 💡 Key Insights")
+        st.markdown("###  Key Insights")
         if len(top_regions) > 0 and "Region" in top_regions.columns:
             best_region = top_regions.iloc[0]["Region"]
             best_value = top_regions.iloc[0][f"Avg {metric}"]
@@ -328,13 +328,13 @@ with tab2:
 
 # TAB 3: Data Table
 with tab3:
-    st.subheader("📋 Filtered Dataset")
+    st.subheader(" Filtered Dataset")
     
     if show_raw_data:
         st.markdown(f"Showing **{len(filtered_df):,}** records for selected {country_col.lower()}s")
         
         # Search functionality
-        search_term = st.text_input("🔍 Search in data:", placeholder="Type to search...")
+        search_term = st.text_input(" Search in data:", placeholder="Type to search...")
         
         if search_term:
             mask = filtered_df.astype(str).apply(
@@ -357,7 +357,7 @@ with tab3:
             use_container_width=True
         )
     else:
-        st.info("👆 Enable 'Show Raw Data Table' in the sidebar to view the full dataset")
+        st.info(" Enable 'Show Raw Data Table' in the sidebar to view the full dataset")
         st.markdown("**Preview (first 5 rows):**")
         st.dataframe(filtered_df.head(), use_container_width=True)
 
@@ -367,7 +367,7 @@ with tab3:
 st.markdown("---")
 st.markdown("""
     <div style='text-align: center; color: #666;'>
-        <p>☀️ <strong>Solar Energy Insights Dashboard</strong> | Built with Streamlit</p>
+        <p> <strong>Solar Energy Insights Dashboard</strong> | Built with Streamlit| Built by Kalid-moh </p>
         <p style='font-size: 0.8rem;'>Interactive • Clean • Production-Ready</p>
     </div>
 """, unsafe_allow_html=True)
